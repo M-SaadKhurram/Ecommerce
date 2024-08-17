@@ -1,0 +1,586 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Aug 16, 2024 at 03:31 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `ecom`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brands`
+--
+
+CREATE TABLE `brands` (
+  `id` int(11) NOT NULL,
+  `brand_name` varchar(250) NOT NULL,
+  `slug` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `brand_name`, `slug`) VALUES
+(8, 'Apple', 'Apple'),
+(9, 'Dell', 'Dell'),
+(10, 'NIKE', 'NIKE'),
+(11, 'ADDIDAS', 'ADDIDAS'),
+(12, 'SABAYAS', 'SABAYAS'),
+(13, 'No Brand', 'No Brand');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `category_name` varchar(250) NOT NULL,
+  `slug` varchar(250) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `category_name`, `slug`, `status`) VALUES
+(11, 'Watches', 'watches', 1),
+(14, 'Computer', 'Computer', 1),
+(17, 'Laptop', 'Laptop', 1),
+(18, 'Mobile Phones', 'Mobile Phones', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `checkout`
+--
+
+CREATE TABLE `checkout` (
+  `id` int(11) NOT NULL,
+  `session_id` varchar(255) NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `checkout_items`
+--
+
+CREATE TABLE `checkout_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `price` varchar(50) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `total` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `checkout_products`
+--
+
+CREATE TABLE `checkout_products` (
+  `id` int(11) NOT NULL,
+  `checkout_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `details`
+--
+
+CREATE TABLE `details` (
+  `id` int(11) NOT NULL,
+  `sales_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `g`
+--
+
+CREATE TABLE `g` (
+  `id` int(11) NOT NULL,
+  `Gender` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `recipient_name` varchar(255) NOT NULL,
+  `phone_number` varchar(15) NOT NULL,
+  `address` text NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `order_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `recipient_name`, `phone_number`, `address`, `city`, `order_date`) VALUES
+(1, 18, 1950.00, 'Saad Khuraam', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-13 13:40:35'),
+(2, 18, 0.00, 'Saad Khuraam', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-13 13:43:24'),
+(3, 19, 900.00, 'ahsan', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-13 13:50:04'),
+(4, 19, 750.00, 'Saad Khuraamsnjashfja', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-13 13:50:21'),
+(5, 18, 3300.00, 'Saad Khuraam', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-14 09:04:02'),
+(6, 18, 7850.00, 'Saad Khuraam', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-14 09:29:43'),
+(7, 18, 1650.00, 'Saad Khuraam', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-14 09:59:44'),
+(8, 18, 2500.00, 'Saad', '03152491621', 'abc', 'abc', '2024-08-15 08:35:16'),
+(9, 18, 3600.00, 'Saad Khuraam', '03152491621', 'jamshed road #3\r\njamshed road #3', 'karachi', '2024-08-15 08:45:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_name`, `price`, `quantity`) VALUES
+(1, 1, 'Model A', 900.00, 1),
+(2, 1, 'Model A', 900.00, 1),
+(3, 1, 'Smartwatch Model B', 150.00, 1),
+(4, 3, 'Model A', 900.00, 1),
+(5, 4, 'Laptop Model B', 750.00, 1),
+(6, 5, 'Model A', 900.00, 1),
+(7, 5, 'Laptop Model B', 750.00, 1),
+(8, 5, 'Smartwatch Model B', 150.00, 1),
+(9, 5, 'Laptop Model G', 1500.00, 1),
+(10, 6, 'Laptop Model E', 850.00, 5),
+(11, 6, 'Model A', 900.00, 4),
+(12, 7, 'Model A', 900.00, 1),
+(13, 7, 'Laptop Model B', 750.00, 1),
+(14, 8, 'Laptop Model B', 750.00, 3),
+(15, 8, 'Smartwatch Model E', 250.00, 1),
+(16, 9, 'Model A', 900.00, 3),
+(17, 9, ' Gaming PC Model B', 900.00, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `color` varchar(250) NOT NULL,
+  `price` varchar(250) NOT NULL,
+  `compare_price` varchar(250) DEFAULT NULL,
+  `sku` varchar(50) DEFAULT NULL,
+  `track_qty` tinyint(1) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `subcategory_id` int(11) DEFAULT NULL,
+  `brand_id` int(11) DEFAULT NULL,
+  `featured` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `image` varchar(255) NOT NULL,
+  `Gender` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `title`, `description`, `color`, `price`, `compare_price`, `sku`, `track_qty`, `status`, `category_id`, `subcategory_id`, `brand_id`, `featured`, `created_at`, `updated_at`, `image`, `Gender`) VALUES
+(111, 'Model A', 'his high-performance laptop is ideal for both work and play, featuring an Intel Core i7 processor, 16GB RAM, and a 512GB SSD. Its sleek design includes a full HD display and a backlit keyboard, making it perfect for late-night typing sessions. Enjoy smooth multitasking and quick boot times with the latest technology.', '', ' 899.99', '999.99', 'warehouse', 16, 1, 17, 22, 9, '0', '2024-08-05 12:31:59', '2024-08-14 08:19:37', '43674236.jpeg,50448393.jpeg,591829028.jpeg', 0),
+(112, 'Laptop Model B', 'Designed for users who need a lightweight and portable machine, this laptop features an Intel Core i5 processor, 8GB RAM, and a 256GB SSD. It comes with a 14-inch HD display and integrated graphics, making it suitable for everyday tasks like browsing and document editing. Its long battery life ensures you stay productive on the go.', '', ' 749.99', '949.99', 'warehouse', 17, 1, 17, 22, 9, '1', '2024-08-05 12:33:09', '2024-08-14 08:19:46', '1386813862.jpeg,826298125.jpeg,1357317208.jpeg', 0),
+(113, 'Laptop Model C', 'This gaming laptop is built for high performance with an Intel Core i9 processor, 32GB RAM, and a 1TB SSD. It features a dedicated NVIDIA GeForce RTX 3060 graphics card, a 15.6-inch Full HD display with a 144Hz refresh rate, and customizable RGB lighting. Perfect for gamers who demand high frame rates and immersive visuals.', '', ' 1399.99', '1699.99', 'warehouse', 23, 1, 17, 22, 8, '0', '2024-08-05 12:34:04', '2024-08-14 08:19:55', '1932901268.jpeg,1028878375.jpeg,1443131365.jpeg', 0),
+(114, 'Laptop Model D', ' This business laptop offers a balance between power and portability, featuring an Intel Core i7 processor, 16GB RAM, and a 1TB SSD. It has a 14-inch Full HD display and a fingerprint reader for added security. Designed for professionals who need a reliable machine for multitasking and data-heavy applications.', '', ' 1199.99', '1899.99', 'warehouse', 34, 1, 17, 22, 9, '0', '2024-08-05 12:35:05', '2024-08-14 08:20:06', '37533040.jpeg,330585166.jpeg,1234775314.jpeg', 0),
+(115, 'Laptop Model E', 'This convertible laptop features a 360-degree hinge, allowing it to be used as a tablet or traditional laptop. It includes an Intel Core i5 processor, 8GB RAM, and a 512GB SSD. The 13.3-inch Full HD touchscreen display and built-in stylus make it ideal for creative professionals and students.', '', ' 849.99', '949.99', 'warehouse', 127, 1, 17, 22, 9, '1', '2024-08-05 12:37:23', '2024-08-14 08:20:20', '1862565811.jpeg,863124704.jpeg,1124247199.jpeg', 0),
+(116, 'Laptop Model G', 'Designed for demanding users, this high-end laptop includes an Intel Core i9 processor, 16GB RAM, and a 1TB SSD. It features a 15.6-inch 4K display and NVIDIA GeForce RTX 3070 graphics, making it ideal for content creation, gaming, and professional applications.', '', ' 1499.99', '$1999.99', 'warehouse', 5, 1, 17, 22, 9, '0', '2024-08-05 12:38:36', '2024-08-14 08:20:31', '859004729.jpeg,498514872.jpeg,476759288.jpeg', 0),
+(118, 'Smartwatch Model A', 'A sleek smartwatch with a vibrant AMOLED display, heart rate monitoring, and GPS tracking. Offers notifications for calls, messages, and apps, along with customizable watch faces.', '', ' 2500', '3000', 'warehouse', 22, 1, 11, 14, 13, '1', '2024-08-05 12:47:05', '2024-08-15 08:48:12', '1071001000_Gemini_Generated_Image_fmqstufmqstufmqs.jpeg,695213577_Gemini_Generated_Image_fmqstrfmqstrfmqs.jpeg,1156837854_Gemini_Generated_Image_fmqstofmqstofmqs.jpeg', 0),
+(119, 'Smartwatch Model B', 'Features a round touchscreen display with fitness tracking, sleep monitoring, and heart rate analysis. Compatible with both iOS and Android, with a range of sports modes.', '', '  149.99', '949.99', 'warehouse', 23, 1, 11, 14, 8, '1', '2024-08-05 12:48:27', '2024-08-14 08:12:00', '1328156106.jpeg,1584292277.jpeg,386979275.jpeg', 0),
+(120, 'Smartwatch Model C', 'Equipped with a large color display, built-in GPS, and a long-lasting battery. Ideal for athletes, it tracks distance, speed, and calories burned with accuracy.', '', '229.99', '729.99', 'warehouse', 22, 1, 11, 14, 8, '1', '2024-08-05 12:49:21', '2024-08-05 12:49:21', '1644610811.jpeg,1221262167.jpeg,1667064005.jpeg', 0),
+(121, 'Smartwatch Model D', ' A stylish smartwatch with a minimalist design, offering notifications, fitness tracking, and a heart rate monitor. Features a customizable strap and multiple watch faces.', '', '179.99', '189.99', 'warehouse', 1, 1, 11, 14, 8, '0', '2024-08-05 12:51:15', '2024-08-05 12:51:15', '676892704.jpeg,1494897363.jpeg,320583096.jpeg', 0),
+(122, 'Smartwatch Model E', 'Combines smart functionality with advanced health tracking, including blood oxygen levels and ECG. Features a bright AMOLED screen and a variety of fitness modes.', '', '249.99', '449.99', 'warehouse', 22, 1, 11, 14, 13, '0', '2024-08-05 12:52:20', '2024-08-05 12:52:20', '1575872744.jpeg,1322133868.jpeg,1206466803.jpeg', 0),
+(123, 'Smartwatch Model F', ' Features a rugged design with water resistance and shockproof capabilities. Ideal for outdoor enthusiasts, it includes a barometer, compass, and altimeter for tracking altitude and weather conditions.', '', ' 299.99', '399.99', 'warehouse', 23, 1, 11, 14, 8, '1', '2024-08-05 12:58:06', '2024-08-05 12:58:34', '239517801_Gemini_Generated_Image_fmqstvfmqstvfmqs.jpeg,760259259_Gemini_Generated_Image_fmqstufmqstufmqs.jpeg,827188876_Gemini_Generated_Image_fmqstnfmqstnfmqs.jpeg', 0),
+(124, 'Gaming PC Model A', 'This high-performance gaming PC features an Intel Core i7 processor, 16GB RAM, and an NVIDIA GeForce RTX 3070 graphics card. With a 1TB SSD and a customizable RGB case, it delivers smooth gameplay and stunning visuals for the latest AAA titles.', '', ' 1,499.99', ' $1,899.99', 'warehouse', 10, 1, 14, 16, 9, '1', '2024-08-05 13:10:29', '2024-08-05 13:10:29', '1687892687.jpeg,2023807910.jpeg', 0),
+(125, ' Gaming PC Model B', 'Equipped with an AMD Ryzen 5 processor, 8GB RAM, and an AMD Radeon RX 6600 XT graphics card. This budget-friendly gaming PC provides excellent performance for 1080p gaming with high settings and includes a 512GB SSD.\r\n\r\n\r\n\r\n', '', '899.99', '1000.99', 'warehouse', 3, 1, 14, 16, 9, '0', '2024-08-05 13:12:48', '2024-08-05 13:12:48', '1610964611.jpeg,765505233.jpeg,1647389429.jpeg', 0),
+(126, 'Gaming PC Model C', 'Featuring an Intel Core i9 processor, 32GB RAM, and an NVIDIA GeForce RTX 3080 graphics card. This high-end gaming rig includes a 2TB SSD and advanced cooling solutions to handle intense gaming and streaming sessions.', '', '2,299.99', '2,599.99', 'warehouse', 4, 1, 14, 16, 9, '0', '2024-08-05 13:15:13', '2024-08-05 13:15:13', '112736958.jpeg,1561012656.jpeg,1363942223.jpeg', 0),
+(127, ' Gaming PC Model ', 'This compact gaming PC comes with an AMD Ryzen 7 processor, 16GB RAM, and an NVIDIA GeForce GTX 1660 Ti graphics card. It offers a 1TB HDD for ample storage and a sleek design that fits easily into any gaming setup.', '', '1,099.99', '1,499.99', 'warehouse', 5, 1, 14, 16, 9, '0', '2024-08-05 13:16:38', '2024-08-05 13:16:38', '691755826.jpeg,1833316075.jpeg,682619686.jpeg', 0),
+(128, 'Gaming PC Model E', 'With a powerful Intel Core i5 processor, 8GB RAM, and an NVIDIA GeForce GTX 1050 Ti graphics card, this entry-level gaming PC is perfect for casual gamers. It includes a 256GB SSD and a stylish, minimalist case.', '', '699.99', '899.99', 'warehouse', 6, 1, 14, 16, 9, '0', '2024-08-05 13:18:16', '2024-08-05 13:18:16', '1720407736.jpeg,1151068802.jpeg,1109100412.jpeg', 0),
+(129, 'Gaming PC Model F', 'A high-performance gaming PC with an AMD Ryzen 9 processor, 32GB RAM, and an NVIDIA GeForce RTX 3090 graphics card. It features a 1TB NVMe SSD and a custom water cooling system for extreme performance and overclocking.', '', ' 3,499.99', '4,199.99', 'warehouse', 8, 1, 14, 16, 9, '0', '2024-08-05 13:19:31', '2024-08-05 13:21:28', '26668007_Gemini_Generated_Image_apibbpapibbpapib (1) - Copy.jpeg,162372556_Gemini_Generated_Image_apibbpapibbpapib (1).jpeg,1566024653_Gemini_Generated_Image_apibbnapibbnapib.jpeg', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `pay_id` varchar(50) NOT NULL,
+  `sales_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`id`, `user_id`, `pay_id`, `sales_date`) VALUES
+(9, 9, 'PAY-1RT494832H294925RLLZ7TZA', '2018-05-10'),
+(10, 9, 'PAY-21700797GV667562HLLZ7ZVY', '2018-05-10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sub`
+--
+
+CREATE TABLE `sub` (
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `subcategory_name` varchar(250) NOT NULL,
+  `slug` varchar(250) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sub`
+--
+
+INSERT INTO `sub` (`id`, `category_id`, `subcategory_name`, `slug`, `status`) VALUES
+(14, 11, 'Smart Watch', 'Smart Watch', 1),
+(16, 14, 'Gaming Pc', 'Gaming Pc', 1),
+(17, 14, 'Computer', 'Computer', 1),
+(19, 14, 'Gaming KeyBoard', 'Gaming KeyBoard', 1),
+(22, 17, 'Laptop', 'laptops', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `password` varchar(60) NOT NULL,
+  `type` int(1) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `address` text NOT NULL,
+  `contact_info` varchar(100) NOT NULL,
+  `role` int(2) NOT NULL DEFAULT 2,
+  `photo` varchar(200) NOT NULL,
+  `status` int(1) NOT NULL,
+  `activate_code` varchar(15) NOT NULL,
+  `reset_code` varchar(15) NOT NULL,
+  `created_on` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password`, `type`, `firstname`, `lastname`, `address`, `contact_info`, `role`, `photo`, `status`, `activate_code`, `reset_code`, `created_on`) VALUES
+(13, 'admin@admin.com', '123', 0, 'Saad', 'Khuraam', '', '', 1, '', 0, '', '', '0000-00-00'),
+(18, 'saad@gmail.com', '123', 0, 'Saad', 'Khuraam', 'jamshed road #3', '03152491621', 2, '', 1, '', '', '2024-08-08'),
+(19, 'Ahsan@gmail.com', '1234', 0, 'Ahsan', 'Khurram', 'jamshed road #3', '03172721144', 2, '', 1, '', '', '2024-08-13');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `brands`
+--
+ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `checkout`
+--
+ALTER TABLE `checkout`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `checkout_items`
+--
+ALTER TABLE `checkout_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `checkout_products`
+--
+ALTER TABLE `checkout_products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `checkout_id` (`checkout_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `details`
+--
+ALTER TABLE `details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `g`
+--
+ALTER TABLE `g`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_category` (`category_id`),
+  ADD KEY `fk_subcategory` (`subcategory_id`),
+  ADD KEY `fk_brand` (`brand_id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sub`
+--
+ALTER TABLE `sub`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_fk` (`category_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `brands`
+--
+ALTER TABLE `brands`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `checkout`
+--
+ALTER TABLE `checkout`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `checkout_items`
+--
+ALTER TABLE `checkout_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `checkout_products`
+--
+ALTER TABLE `checkout_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `details`
+--
+ALTER TABLE `details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `g`
+--
+ALTER TABLE `g`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+
+--
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `sub`
+--
+ALTER TABLE `sub`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `checkout_items`
+--
+ALTER TABLE `checkout_items`
+  ADD CONSTRAINT `checkout_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `checkout` (`id`),
+  ADD CONSTRAINT `checkout_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `checkout_products`
+--
+ALTER TABLE `checkout_products`
+  ADD CONSTRAINT `checkout_products_ibfk_1` FOREIGN KEY (`checkout_id`) REFERENCES `checkout` (`id`),
+  ADD CONSTRAINT `checkout_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `fk_brand` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`),
+  ADD CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  ADD CONSTRAINT `fk_subcategory` FOREIGN KEY (`subcategory_id`) REFERENCES `sub` (`id`);
+
+--
+-- Constraints for table `sub`
+--
+ALTER TABLE `sub`
+  ADD CONSTRAINT `category_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
